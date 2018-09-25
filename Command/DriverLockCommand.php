@@ -3,6 +3,7 @@
 namespace Lexik\Bundle\MaintenanceBundle\Command;
 
 use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
+use Lexik\Bundle\MaintenanceBundle\Drivers\DriverInterface;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverTtlInterface;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -133,7 +134,7 @@ EOT
     /**
      * Get driver
      *
-     * @return AbstractDriver
+     * @return DriverInterface
      */
     private function getDriver()
     {

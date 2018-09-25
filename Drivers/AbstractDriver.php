@@ -10,7 +10,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-abstract class AbstractDriver
+abstract class AbstractDriver implements DriverInterface
 {
     /**
      * @var array
