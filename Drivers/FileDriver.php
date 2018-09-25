@@ -109,7 +109,7 @@ class FileDriver extends AbstractDriver
         $accessTime = date("Y-m-d H:i:s.", filemtime($this->filePath));
         $accessTime = new \DateTime($accessTime);
         $accessTime->modify(sprintf('+%s seconds', $this->options['ttl']));
-        $timeDiff = $accessTime->diff($now);
+        $timeDiff = $now->diff($accessTime);
         if ($timeDiff !== false AND $accessTime > $now) {
             return $timeDiff;
         }

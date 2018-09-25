@@ -124,6 +124,7 @@ class FileMaintenanceTest extends TestCase
         $restTime = $fileM->getRemainingTimeToLive();
         $restTimeInSeconds = $restTime->s + $restTime->i * 60 + $restTime->h * 3600;
         $this->assertInstanceOf(\DateInterval::class,$restTime);
+        $this->assertEquals(0,$restTime->invert);
 
         $this->assertGreaterThan(1,$restTimeInSeconds);
         $this->assertLessThan(3601,$restTimeInSeconds);
