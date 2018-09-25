@@ -96,4 +96,26 @@ class FileDriver extends AbstractDriver
 
         return $this->translator->trans($key, array(), 'maintenance');
     }
+
+    public function getRemainingTimeToLive(): ?\DateInterval
+    {
+        if (!file_exists($this->filePath)) {
+            return null;
+        }
+        if (!isset($this->options['ttl']) OR !is_numeric($this->options['ttl'])) {
+            return null;
+        }
+        $now = new \DateTime('now');
+        $accessTime = date("Y-m-d H:i:s.", filemtime($this->filePath));
+        $accessTime = new \DateTime($accessTime);
+        $accessTime->modify(sprintf('+%s seconds', $this->options['ttl']));
+        $timeDiff = $accessTime->diff($now);
+        if ($timeDiff !== false AND $accessTime > $now) {
+            return $timeDiff;
+        }
+        return null;
+
+    }
+
+
 }

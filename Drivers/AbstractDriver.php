@@ -2,6 +2,7 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Drivers;
 
+use Lexik\Bundle\MaintenanceBundle\Exception\NotSupportedException;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -128,4 +129,11 @@ abstract class AbstractDriver implements DriverInterface
     {
         $this->translator = $translator;
     }
+
+    public function getRemainingTimeToLive(): ?\DateInterval
+    {
+        throw new NotSupportedException('Method currently not implemented for driver.');
+    }
+
+
 }

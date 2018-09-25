@@ -71,4 +71,10 @@ interface DriverInterface
      * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator);
+
+    /**
+     * Get the remaining time to live of the maintenance lock, return null if no ttl is set or if not locked
+     * @return \DateInterval|null
+     */
+    public function getRemainingTimeToLive(): ?\DateInterval;
 }

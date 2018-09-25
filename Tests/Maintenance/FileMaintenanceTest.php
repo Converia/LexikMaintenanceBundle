@@ -113,6 +113,47 @@ class FileMaintenanceTest extends TestCase
         $this->assertEquals($fileM->getMessageUnlock(false), 'lexik_maintenance.not_success_unlock');
     }
 
+    public function testRemainingTime()
+    {
+        $options = array('file_path' => self::$tmpDir.'/lock.lock', 'ttl' => 3600);
+
+        $fileM = new FileDriver($options);
+        $fileM->setTranslator($this->getTranslator());
+        $fileM->lock();
+
+        $restTime = $fileM->getRemainingTimeToLive();
+        $restTimeInSeconds = $restTime->s + $restTime->i * 60 + $restTime->h * 3600;
+        $this->assertInstanceOf(\DateInterval::class,$restTime);
+
+        $this->assertGreaterThan(1,$restTimeInSeconds);
+        $this->assertLessThan(3601,$restTimeInSeconds);
+    }
+
+    public function testRemainingTimeExpired()
+    {
+        $options = array('file_path' => self::$tmpDir.'/lock.lock', 'ttl' => 1);
+
+        $fileM = new FileDriver($options);
+        $fileM->setTranslator($this->getTranslator());
+        $fileM->lock();
+
+        sleep(2);//Am i evil?
+        $restTime = $fileM->getRemainingTimeToLive();
+        $this->assertNull($restTime);
+    }
+
+    public function testRemainingTimeNotSet()
+    {
+        $options = array('file_path' => self::$tmpDir.'/lock.lock');
+
+        $fileM = new FileDriver($options);
+        $fileM->setTranslator($this->getTranslator());
+        $fileM->lock();
+
+        $restTime = $fileM->getRemainingTimeToLive();
+        $this->assertNull($restTime);
+    }
+
     static public function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
