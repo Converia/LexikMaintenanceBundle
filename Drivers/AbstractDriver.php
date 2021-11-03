@@ -3,7 +3,7 @@
 namespace Lexik\Bundle\MaintenanceBundle\Drivers;
 
 use Lexik\Bundle\MaintenanceBundle\Exception\NotSupportedException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Abstract class for drivers

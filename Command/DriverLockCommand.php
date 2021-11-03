@@ -2,14 +2,16 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Command;
 
+use ErrorException;
 use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
+use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverInterface;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverTtlInterface;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Create a lock action
@@ -17,11 +19,22 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-class DriverLockCommand extends ContainerAwareCommand
+class DriverLockCommand extends Command
 {
     protected $ttl;
 
-    /**
+	/**
+	 * @var DriverFactory
+	 */
+	private $driverFactory;
+
+	public function __construct(DriverFactory $driverFactory, string $name = null)
+	{
+		$this->driverFactory = $driverFactory;
+		parent::__construct($name);
+	}
+
+	/**
      * {@inheritdoc}
      */
     protected function configure()
@@ -131,14 +144,15 @@ EOT
         }
     }
 
-    /**
-     * Get driver
-     *
-     * @return DriverInterface
-     */
-    private function getDriver()
-    {
-        return $this->getContainer()->get('lexik_maintenance.driver.factory')->getDriver();
+	/**
+	 * Get driver
+	 *
+	 * @return DriverInterface
+	 * @throws ErrorException
+	 */
+    private function getDriver(): DriverInterface
+	{
+        return $this->driverFactory->getDriver();
     }
 
     /**
