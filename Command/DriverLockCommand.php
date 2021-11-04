@@ -70,7 +70,7 @@ EOT
         if ($input->isInteractive()) {
             if (!$this->askConfirmation('WARNING! Are you sure you wish to continue? (y/n)', $input, $output)) {
                 $output->writeln('<error>Maintenance cancelled!</error>');
-                return;
+                return 0;
             }
         } elseif (null !== $input->getArgument('ttl')) {
             $this->ttl = $input->getArgument('ttl');
@@ -84,6 +84,8 @@ EOT
         }
 
         $output->writeln('<info>'.$driver->getMessageLock($driver->lock()).'</info>');
+
+		return 0;
     }
 
     /**
