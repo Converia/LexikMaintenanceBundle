@@ -2,13 +2,15 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Tests;
 
+use PHPUnit\Framework\TestCase as TC;
+
 require_once __DIR__.'/../../../../app/AppKernel.php';
 
 /**
  * A PHPUnit testcase with some Symfony2 tools.
  *
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends TC
 {
     /**
      * @var Symfony\Component\HttpKernel\AppKernel
@@ -30,7 +32,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @see \PHPUnit_Framework_TestCase::setUp()
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         // Boot the AppKernel in the test environment and with the debug.
         $this->kernel = new \AppKernel('test', true);
@@ -48,7 +50,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @see \PHPUnit_Framework_TestCase::tearDown()
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->entityManager->getConnection()->rollback();
 

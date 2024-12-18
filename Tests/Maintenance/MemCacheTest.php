@@ -2,6 +2,7 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Tests\Maintenance;
 
+use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -9,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Lexik\Bundle\MaintenanceBundle\Drivers\MemCacheDriver;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test mem cache
@@ -16,37 +18,29 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-class MemCacheTest extends \PHPUnit_Framework_TestCase
+class MemCacheTest extends TestCase
 {
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testConstructWithNotKeyName()
     {
+        $this->expectException(InvalidArgumentException::class);
         $memC = new MemCacheDriver(array());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testConstructWithNotHost()
     {
+        $this->expectException(InvalidArgumentException::class);
         $memC = new MemCacheDriver(array('key_name' => 'mnt'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testConstructWithNotPort()
     {
+        $this->expectException(InvalidArgumentException::class);
         $memC = new MemCacheDriver(array('key_name' => 'mnt', 'host' => '127.0.0.1'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testConstructWithNotPortNumber()
     {
+        $this->expectException(InvalidArgumentException::class);
         $memC = new MemCacheDriver(array('key_name' => 'mnt', 'host' => '127.0.0.1', 'port' => 'roti'));
     }
 

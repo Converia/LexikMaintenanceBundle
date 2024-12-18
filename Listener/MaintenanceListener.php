@@ -78,7 +78,7 @@ class MaintenanceListener
     protected $http_status;
 
     /**
-     * @var null|String
+     * @var String
      */
     protected $http_exception_message;
 
@@ -125,7 +125,7 @@ class MaintenanceListener
         $attributes = array(),
         $http_code = null,
         $http_status = null,
-        $http_exception_message = null,
+        $http_exception_message = '',
         $debug = false
     ) {
         $this->driverFactory = $driverFactory;

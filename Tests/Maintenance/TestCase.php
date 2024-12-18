@@ -2,17 +2,19 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Tests\Maintenance;
 
+use PHPUnit\Framework\TestCase as TC;
+
 /**
  *
  *
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends TC
 {
     static protected $files;
 
-    static public function setUpBeforeClass()
+    static public function setUpBeforeClass(): void
     {
         $tmpDir = sys_get_temp_dir().'/symfony2_finder';
         self::$files = array(
@@ -34,7 +36,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
     }
 
-    static public function tearDownAfterClass()
+    static public function tearDownAfterClass(): void
     {
         foreach (array_reverse(self::$files) as $file) {
             if ('/' === $file[strlen($file) - 1]) {

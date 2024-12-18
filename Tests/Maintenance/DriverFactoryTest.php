@@ -2,11 +2,13 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Tests\Maintenance;
 
+use ErrorException;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Lexik\Bundle\MaintenanceBundle\Tests\TestHelper;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Translation\IdentityTranslator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test driver factory
@@ -14,12 +16,12 @@ use Symfony\Component\Translation\IdentityTranslator;
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-class DriverFactoryTest extends \PHPUnit_Framework_TestCase
+class DriverFactoryTest extends TestCase
 {
     protected $factory;
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $driverOptions = array(
             'class' => '\Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver',
@@ -31,7 +33,7 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
         $this->container->set('lexik_maintenance.driver.factory', $this->factory);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->factory = null;
     }
@@ -42,11 +44,9 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver', $driver);
     }
 
-    /**
-     * @expectedException ErrorException
-     */
     public function testExceptionConstructor()
     {
+        $this->expectException(ErrorException::class);
         $factory = new DriverFactory($this->getDatabaseDriver(), $this->getTranslator(), array());
     }
 
@@ -71,6 +71,7 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
         try {
             $factory->getDriver();
         } catch (\ErrorException $expected) {
+            $this->assertEquals("Class '\Unknown' not found in ".DriverFactory::class, $expected->getMessage());
             return;
         }
 

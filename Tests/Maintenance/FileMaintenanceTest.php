@@ -2,6 +2,7 @@
 
 namespace Lexik\Bundle\MaintenanceBundle\Tests\Maintenance;
 
+use InvalidArgumentException;
 use Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver;
 use Lexik\Bundle\MaintenanceBundle\Tests\TestHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,19 +20,19 @@ class FileMaintenanceTest extends TestCase
     static protected $tmpDir;
     protected $container;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         self::$tmpDir = sys_get_temp_dir().'/symfony2_finder';
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->initContainer();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->container = null;
     }
@@ -52,11 +53,9 @@ class FileMaintenanceTest extends TestCase
         $this->assertFalse($fileM2->decide());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testExceptionInvalidPath()
     {
+        $this->expectException(InvalidArgumentException::class);
         $fileM = new FileDriver(array());
         $fileM->setTranslator($this->getTranslator());
     }
@@ -155,7 +154,7 @@ class FileMaintenanceTest extends TestCase
         $this->assertNull($restTime);
     }
 
-    static public function tearDownAfterClass()
+    static public function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
     }

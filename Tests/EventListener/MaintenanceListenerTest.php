@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Translation\IdentityTranslator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for the maintenance listener
@@ -20,7 +21,7 @@ use Symfony\Component\Translation\IdentityTranslator;
  * @package LexikMaintenanceBundle
  * @author  Gilles Gauthier <g.gauthier@lexik.fr>
  */
-class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
+class MaintenanceListenerTest extends TestCase
 {
     protected
         $container,
@@ -285,7 +286,7 @@ class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->container = null;
         $this->factory   = null;
